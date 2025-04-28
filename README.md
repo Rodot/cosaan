@@ -2,17 +2,17 @@
 
 ## Overview
 
-Social party game on a web app. Players are crash-landed on an island, they struggle to balance collaborative survival with personal fame.
+Webapp party game. Players are crash-landed on an island, they struggle to balance collaborative survival with personal fame. Shared resources management and social deception awaits!
 
 ## Characteristics
 
-- Target audience/age range: 16-40 years old
+- Target audience/age range: 16-40 years old (mature textual content)
 - Player count: 4 😃 Players + 28 🤖 NPCs
 - Estimated playtime: 60 minutes (2 min x 30 days)
 - Complexity level: Play right away, but with depth for strategy
 - D&D feel: Virtual 🎲 D20 dice rolls for all 💪 Actions and 🎲 Events
 - Theme: 😃 Players play as themselves, modern times, crash-landed on a deserted island, waiting 30 days for rescue (problem => no reason to look for 🏆 Fame)
-- Visual: default web app style, material design system, mdi icons
+- Visual: text-based, default web app style, material design system, mdi icons
 - Victory condition: survive 30 days with the most 🏆 Fame
 - If a 😃 Player dies, they reincarnate into one of the 🤖 NPCs
 
@@ -294,10 +294,9 @@ Policies affect everybody, players can't break policies with their 💪 Action
 
 ## 🎲 Events available
 
-Some 🎲 Events have conditions to be able to happen
-Events have a weighted chance to happen
-Max 1 event per day
-
+- Some 🎲 Events have conditions to be able to happen
+- Events have a weighted chance to happen
+- Max 1 event per day
 - ...
 
 ## 👤 Villager 🔥 Modifiers
