@@ -19,6 +19,18 @@ class UserProfile extends Equatable {
     );
   }
 
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      id: json['id'] as String,
+      name: json['name'] as String?,
+      roomId: json['room_id'] as String?,
+      createdAt:
+          json['created_at'] != null
+              ? DateTime.parse(json['created_at'] as String)
+              : null,
+    );
+  }
+
   @override
   List<Object?> get props => [id, name, roomId, createdAt];
 }
