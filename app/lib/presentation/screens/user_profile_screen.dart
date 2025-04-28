@@ -15,14 +15,10 @@ class UserProfileScreen extends ConsumerWidget {
         if (userProfile == null) {
           return const CircularProgressIndicator();
         }
-
         return UserNameField(
           userProfile: userProfile,
-          onUpdateRequested: (updatedProfile) {
-            ref
-                .read(userProfileNotifierProvider.notifier)
-                .updateUserProfile(updatedProfile);
-          },
+          updateUserProfile:
+              ref.read(userProfileNotifierProvider.notifier).updateUserProfile,
         );
       },
       loading: () => const CircularProgressIndicator(),

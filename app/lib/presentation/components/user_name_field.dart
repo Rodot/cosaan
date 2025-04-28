@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:app/domain/models/user.dart';
 
 class UserNameField extends StatefulWidget {
-  final UserProfile? userProfile;
-  final Function(UserProfile) onUpdateRequested;
+  final UserProfile userProfile;
+  final Function(UserProfile) updateUserProfile;
 
   const UserNameField({
     super.key,
     required this.userProfile,
-    required this.onUpdateRequested,
+    required this.updateUserProfile,
   });
 
   @override
@@ -21,8 +21,8 @@ class _UserNameFieldState extends State<UserNameField> {
   @override
   void initState() {
     super.initState();
-    if (widget.userProfile?.name != null) {
-      _nameController.text = widget.userProfile!.name!;
+    if (widget.userProfile.name != null) {
+      _nameController.text = widget.userProfile.name!;
     }
     _nameController.addListener(() {
       setState(() {
@@ -35,9 +35,9 @@ class _UserNameFieldState extends State<UserNameField> {
   void didUpdateWidget(UserNameField oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Update controller when userName changes from parent
-    if (widget.userProfile?.name != oldWidget.userProfile?.name && 
-        widget.userProfile?.name != null) {
-      _nameController.text = widget.userProfile!.name!;
+    if (widget.userProfile.name != oldWidget.userProfile.name &&
+        widget.userProfile.name != null) {
+      _nameController.text = widget.userProfile.name!;
     }
   }
 
@@ -57,50 +57,64 @@ class _UserNameFieldState extends State<UserNameField> {
             labelText: 'Your Name',
             border: const OutlineInputBorder(),
             suffixIcon:
-                _nameController.text.trim() == (widget.userProfile?.name ?? '')
+                _nameController.text.trim() == (widget.userProfile.name ?? '')
                     ? null
-                    : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.clear, color: Colors.red),
-                          onPressed: () {
-                            // Discard changes and restore original username
-                            if (widget.userProfile?.name != null) {
-                              _nameController.text = widget.userProfile!.name!;
-                            } else {
-                              _nameController.clear();
-                            }
-                          },
-                          tooltip: 'Discard changes',
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.save),
-                          onPressed: () {
-                            final trimmedValue = _nameController.text.trim();
-                            if (trimmedValue.isNotEmpty && widget.userProfile != null) {
-                              final updatedProfile = widget.userProfile!.copyWith(
-                                name: trimmedValue,
-                              );
-                              widget.onUpdateRequested(updatedProfile);
-                            }
-                          },
-                          tooltip: 'Save changes',
-                        ),
-                      ],
+                    : SaveAndDiscardButtons(
+                      widget: widget,
+                      nameController: _nameController,
                     ),
           ),
-          onSubmitted: (value) {
-            final trimmedValue = value.trim();
-            if (trimmedValue.isNotEmpty && 
-                trimmedValue != widget.userProfile?.name && 
-                widget.userProfile != null) {
-              final updatedProfile = widget.userProfile!.copyWith(
-                name: trimmedValue,
-              );
-              widget.onUpdateRequested(updatedProfile);
+          onSubmitted: updateUserProfileName,
+        ),
+      ],
+    );
+  }
+
+  void updateUserProfileName(value) {
+    final trimmedValue = value.trim();
+    if (trimmedValue.isNotEmpty && trimmedValue != widget.userProfile.name) {
+      final updatedProfile = widget.userProfile.copyWith(name: trimmedValue);
+      widget.updateUserProfile(updatedProfile);
+    }
+  }
+}
+
+class SaveAndDiscardButtons extends StatelessWidget {
+  const SaveAndDiscardButtons({
+    super.key,
+    required this.widget,
+    required TextEditingController nameController,
+  }) : _nameController = nameController;
+
+  final UserNameField widget;
+  final TextEditingController _nameController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            // Discard changes and restore original username
+            if (widget.userProfile.name != null) {
+              _nameController.text = widget.userProfile.name!;
+            } else {
+              _nameController.clear();
             }
           },
+          tooltip: 'Discard changes',
+        ),
+        IconButton(
+          icon: const Icon(Icons.save),
+          onPressed: () {
+            final updatedProfile = widget.userProfile.copyWith(
+              name: _nameController.text,
+            );
+            widget.updateUserProfile(updatedProfile);
+          },
+          tooltip: 'Save changes',
         ),
       ],
     );
