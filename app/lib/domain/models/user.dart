@@ -3,11 +3,16 @@ import 'package:equatable/equatable.dart';
 /// Domain entity representing a user in the system
 class UserProfile extends Equatable {
   final String id;
-  final String? name;
-  final String? roomId;
-  final DateTime? createdAt;
+  final String name;
+  final String roomId;
+  final DateTime createdAt;
 
-  const UserProfile({required this.id, this.name, this.roomId, this.createdAt});
+  const UserProfile({
+    required this.id, 
+    required this.name, 
+    required this.roomId, 
+    required this.createdAt
+  });
 
   /// Creates a new UserProfile with updated properties
   UserProfile copyWith({String? name, String? roomId}) {
@@ -20,17 +25,20 @@ class UserProfile extends Equatable {
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('id')) {
+      throw Exception('UserProfile missing required id field');
+    }
+    
     return UserProfile(
       id: json['id'] as String,
-      name: json['name'] as String?,
-      roomId: json['room_id'] as String?,
-      createdAt:
-          json['created_at'] != null
-              ? DateTime.parse(json['created_at'] as String)
-              : null,
+      name: json.containsKey('name') ? json['name'] as String : '',
+      roomId: json.containsKey('room_id') ? json['room_id'] as String : '',
+      createdAt: json.containsKey('created_at') 
+          ? DateTime.parse(json['created_at'] as String)
+          : DateTime.now(),
     );
   }
 
   @override
-  List<Object?> get props => [id, name, roomId, createdAt];
+  List<Object> get props => [id, name, roomId, createdAt];
 }

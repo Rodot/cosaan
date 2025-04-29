@@ -13,17 +13,17 @@ UserProfileRepository userProfileRepository(Ref ref) {
 @Riverpod(keepAlive: true)
 class UserProfileNotifier extends _$UserProfileNotifier {
   @override
-  Future<UserProfile?> build() async {
+  Future<UserProfile> build() async {
     return _signInAnonymously();
   }
 
-  Future<UserProfile?> _signInAnonymously() async {
+  Future<UserProfile> _signInAnonymously() async {
     try {
       final userProfileRepository = ref.read(userProfileRepositoryProvider);
       return await userProfileRepository.signInAnonymously();
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
-      return null;
+      throw Exception('Failed to sign in anonymously: ${e.toString()}');
     }
   }
 

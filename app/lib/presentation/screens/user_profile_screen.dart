@@ -12,9 +12,6 @@ class UserProfileScreen extends ConsumerWidget {
 
     return userProfileAsync.when(
       data: (userProfile) {
-        if (userProfile == null) {
-          return const CircularProgressIndicator();
-        }
         return UserNameField(
           userProfile: userProfile,
           updateUserProfile:

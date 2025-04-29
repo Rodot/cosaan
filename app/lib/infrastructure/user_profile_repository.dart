@@ -16,7 +16,7 @@ class UserProfileRepository {
   }
 
   /// Updates user profile in the database
-  Future<UserProfile?> update(String userId, UserProfile updatedProfile) async {
+  Future<UserProfile> update(String userId, UserProfile updatedProfile) async {
     final updates = {
       'name': updatedProfile.name,
       'room_id': updatedProfile.roomId,
@@ -36,8 +36,7 @@ class UserProfileRepository {
 
     // User is already signed in, fetch their profile
     if (session != null) {
-      final userProfile = await fetch(session.user.id);
-      return userProfile;
+      return await fetch(session.user.id);
     }
 
     // Sign in anonymously
@@ -45,7 +44,10 @@ class UserProfileRepository {
     if (response.user == null) {
       throw Exception('Error signing in anonymously: No user found');
     }
-    final userProfile = await fetch(response.user!.id);
-    return userProfile;
+    final user = response.user;
+    if (user == null) {
+      throw Exception('Error signing in anonymously: auth.user is null');
+    }
+    return await fetch(user.id);
   }
 }
