@@ -10,6 +10,8 @@ You must apply the following at all time.
 - Use declarative and fuctionnal instead of imperative (eg. use `map` instead of `for`)
 - If any function or method is longuer than 15 lines, refactor to extract functions out of it.
 - Don't write comments, use excplicit names instead
+- Domain, services, infrastructure layer premptively throw errors without handling them.
+- All error handling is done in the presentation layer by showing snacks.
 
 ## Folders
 
