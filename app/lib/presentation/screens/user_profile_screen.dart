@@ -1,3 +1,4 @@
+import 'package:app/presentation/utils/show_error_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/state/user_profile_provider.dart';
@@ -20,11 +21,7 @@ class UserProfileScreen extends ConsumerWidget {
       },
       loading: () => const CircularProgressIndicator(),
       error: (error, stackTrace) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Error: ${error.toString()}')));
-        });
+        showErrorSnackbar(context, error.toString());
         return const Text('Error loading profile');
       },
     );
