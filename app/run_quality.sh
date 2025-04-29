@@ -22,8 +22,7 @@ echo "🔨 Building web application for testing..."
 flutter build web -t integration_test/app_test.dart --release --dart-define=CI=true
 
 echo "🔨 Starting chromedriver on port 4444..."
-npx -y chromedriver --port=4444 --verbose &
-CHROMEDRIVER_PID=$!
+npx -y chromedriver --port=4444 &
 
 echo "🔨 Running Flutter integration tests..."
 flutter drive \
@@ -32,4 +31,4 @@ flutter drive \
   -d chrome
 
 echo "🔨 Cleaning up: terminating chromedriver..."
-kill $CHROMEDRIVER_PID
+pkill -f chromedriver || true
