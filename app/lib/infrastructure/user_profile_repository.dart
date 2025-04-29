@@ -1,7 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app/domain/models/user.dart';
 
-/// Repository responsible for user-related data operations
 class UserProfileRepository {
   final SupabaseClient _client = Supabase.instance.client;
 
@@ -15,7 +14,6 @@ class UserProfileRepository {
     return UserProfile.fromJson(json);
   }
 
-  /// Updates user profile in the database
   Future<UserProfile> update(String userId, UserProfile updatedProfile) async {
     final updates = {
       'name': updatedProfile.name,
@@ -33,21 +31,26 @@ class UserProfileRepository {
 
   Future<UserProfile> signInAnonymously() async {
     final Session? session = _client.auth.currentSession;
+    return session != null
+        ? _fetchExistingUser(session)
+        : _createAnonymousUser();
+  }
 
-    // User is already signed in, fetch their profile
-    if (session != null) {
-      return await fetch(session.user.id);
-    }
+  Future<UserProfile> _fetchExistingUser(Session session) async {
+    return await fetch(session.user.id);
+  }
 
-    // Sign in anonymously
+  Future<UserProfile> _createAnonymousUser() async {
     final response = await _client.auth.signInAnonymously();
-    if (response.user == null) {
-      throw Exception('Error signing in anonymously: No user found');
-    }
+    final user = _validateUserResponse(response);
+    return await fetch(user.id);
+  }
+
+  User _validateUserResponse(AuthResponse response) {
     final user = response.user;
     if (user == null) {
-      throw Exception('Error signing in anonymously: auth.user is null');
+      throw Exception('Error signing in anonymously: No user found');
     }
-    return await fetch(user.id);
+    return user;
   }
 }
