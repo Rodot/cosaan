@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:app/presentation/screens/user_profile_screen.dart';
+import 'package:app/presentation/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,27 +16,5 @@ Future<void> main() async {
   }
   await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
 
-  runApp(const ProviderScope(child: MainApp()));
-}
-
-class MainApp extends ConsumerWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('The Village')),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [const UserProfileScreen()],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  runApp(const ProviderScope(child: App()));
 }
