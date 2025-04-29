@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 
 /// Domain entity representing a user in the system
-class UserProfile extends Equatable {
+class Profile extends Equatable {
   final String id;
   final String? name;
   final String? roomId;
   final DateTime createdAt;
 
-  const UserProfile({
+  const Profile({
     required this.id,
     this.name,
     this.roomId,
     required this.createdAt,
   });
 
-  /// Creates a new UserProfile with updated properties
-  UserProfile copyWith({String? name, String? roomId}) {
-    return UserProfile(
+  /// Creates a new Profile with updated properties
+  Profile copyWith({String? name, String? roomId}) {
+    return Profile(
       id: id,
       name: name ?? this.name,
       roomId: roomId ?? this.roomId,
@@ -24,12 +24,12 @@ class UserProfile extends Equatable {
     );
   }
 
-  factory UserProfile.fromJson(Map<String, dynamic> json) {
+  factory Profile.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('id')) {
-      throw Exception('UserProfile missing required id field');
+      throw Exception('Profile missing required id field');
     }
 
-    return UserProfile(
+    return Profile(
       id: json['id'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       name: json['name']?.toString(),

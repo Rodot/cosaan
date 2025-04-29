@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:app/domain/models/user.dart';
 
 class UserNameField extends StatefulWidget {
-  final UserProfile userProfile;
-  final Function(UserProfile) updateUserProfile;
+  final Profile profile;
+  final Function(Profile) updateProfile;
 
   const UserNameField({
     super.key,
-    required this.userProfile,
-    required this.updateUserProfile,
+    required this.profile,
+    required this.updateProfile,
   });
 
   @override
@@ -21,7 +21,7 @@ class _UserNameFieldState extends State<UserNameField> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.userProfile.name ?? '';
+    _nameController.text = widget.profile.name ?? '';
     _nameController.addListener(() {
       setState(() {
         // This will rebuild the widget when text changes
@@ -33,8 +33,8 @@ class _UserNameFieldState extends State<UserNameField> {
   void didUpdateWidget(UserNameField oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Update controller when userName changes from parent
-    if (widget.userProfile.name != oldWidget.userProfile.name) {
-      _nameController.text = widget.userProfile.name ?? '';
+    if (widget.profile.name != oldWidget.profile.name) {
+      _nameController.text = widget.profile.name ?? '';
     }
   }
 
@@ -54,24 +54,24 @@ class _UserNameFieldState extends State<UserNameField> {
             labelText: 'Your Name',
             border: const OutlineInputBorder(),
             suffixIcon:
-                _nameController.text.trim() == (widget.userProfile.name ?? '')
+                _nameController.text.trim() == (widget.profile.name ?? '')
                     ? null
                     : SaveAndDiscardButtons(
                       widget: widget,
                       nameController: _nameController,
                     ),
           ),
-          onSubmitted: updateUserProfileName,
+          onSubmitted: updateProfileName,
         ),
       ],
     );
   }
 
-  void updateUserProfileName(value) {
+  void updateProfileName(value) {
     final trimmedValue = value.trim();
-    if (trimmedValue.isNotEmpty && trimmedValue != widget.userProfile.name) {
-      final updatedProfile = widget.userProfile.copyWith(name: trimmedValue);
-      widget.updateUserProfile(updatedProfile);
+    if (trimmedValue.isNotEmpty && trimmedValue != widget.profile.name) {
+      final updatedProfile = widget.profile.copyWith(name: trimmedValue);
+      widget.updateProfile(updatedProfile);
     }
   }
 }
@@ -94,17 +94,17 @@ class SaveAndDiscardButtons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
-            _nameController.text = widget.userProfile.name ?? '';
+            _nameController.text = widget.profile.name ?? '';
           },
           tooltip: 'Discard changes',
         ),
         IconButton(
           icon: const Icon(Icons.save),
           onPressed: () {
-            final updatedProfile = widget.userProfile.copyWith(
+            final updatedProfile = widget.profile.copyWith(
               name: _nameController.text,
             );
-            widget.updateUserProfile(updatedProfile);
+            widget.updateProfile(updatedProfile);
           },
           tooltip: 'Save changes',
         ),

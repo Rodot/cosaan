@@ -4,7 +4,6 @@ CREATE TABLE public.rooms(
     created_at timestamp NOT NULL DEFAULT NOW(),
     lang text DEFAULT 'en' ::text,
     status text DEFAULT 'lobby' ::text,
-    next_vote integer DEFAULT 0,
     next_room_id uuid REFERENCES public.rooms ON DELETE SET NULL
 );
 
@@ -12,7 +11,7 @@ ALTER publication supabase_realtime
     ADD TABLE public.rooms;
 
 -- user profiles
-CREATE TABLE public.user_profiles(
+CREATE TABLE public.profiles(
     id uuid PRIMARY KEY NOT NULL REFERENCES auth.users ON DELETE CASCADE,
     created_at timestamp NOT NULL DEFAULT NOW(),
     room_id uuid REFERENCES public.rooms ON DELETE SET NULL,
@@ -20,9 +19,9 @@ CREATE TABLE public.user_profiles(
 );
 
 ALTER publication supabase_realtime
-    ADD TABLE public.user_profiles;
+    ADD TABLE public.profiles;
 
-CREATE INDEX idx_user_profiles_room_id ON public.user_profiles(room_id);
+CREATE INDEX idx_profiles_room_id ON public.profiles(room_id);
 
 -- room logs
 CREATE TABLE public.logs(
@@ -45,7 +44,7 @@ CREATE FUNCTION public.handle_new_user()
     SET search_path = ''
     AS $$
 BEGIN
-    INSERT INTO public.user_profiles(id, name, room_id)
+    INSERT INTO public.profiles(id, name, room_id)
         VALUES(NEW.id, COALESCE(NEW.raw_user_meta_data ->> 'name', NULL), COALESCE(NEW.raw_user_meta_data ->> 'room_id', NULL)::uuid);
     RETURN new;
 END;

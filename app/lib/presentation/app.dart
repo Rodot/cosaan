@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/presentation/screens/user_profile_screen.dart';
+import 'package:app/presentation/screens/profile_screen.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -15,7 +15,7 @@ class App extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [const UserProfileScreen()],
+              children: [const ProfileScreen()],
             ),
           ),
         ),
