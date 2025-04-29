@@ -21,7 +21,7 @@ class _UserNameFieldState extends State<UserNameField> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.userProfile.name;
+    _nameController.text = widget.userProfile.name ?? '';
     _nameController.addListener(() {
       setState(() {
         // This will rebuild the widget when text changes
@@ -34,7 +34,7 @@ class _UserNameFieldState extends State<UserNameField> {
     super.didUpdateWidget(oldWidget);
     // Update controller when userName changes from parent
     if (widget.userProfile.name != oldWidget.userProfile.name) {
-      _nameController.text = widget.userProfile.name;
+      _nameController.text = widget.userProfile.name ?? '';
     }
   }
 
@@ -54,7 +54,7 @@ class _UserNameFieldState extends State<UserNameField> {
             labelText: 'Your Name',
             border: const OutlineInputBorder(),
             suffixIcon:
-                _nameController.text.trim() == widget.userProfile.name
+                _nameController.text.trim() == (widget.userProfile.name ?? '')
                     ? null
                     : SaveAndDiscardButtons(
                       widget: widget,
@@ -94,7 +94,7 @@ class SaveAndDiscardButtons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
-            _nameController.text = widget.userProfile.name;
+            _nameController.text = widget.userProfile.name ?? '';
           },
           tooltip: 'Discard changes',
         ),

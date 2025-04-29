@@ -30,9 +30,6 @@ Organize the code following this architecture
 
 ## Commands
 
-You must apply the following at all time.
-Run after each edit.
+You must run `./run_quality.sh` after each modification.
 
-```bash
-dart pub get && dart run custom_lint && dart analyze
-```
+If it fails, find the issue, fix it, and run it again.

@@ -14,7 +14,15 @@ Future<void> main() async {
   if (supabaseUrl == null || supabaseAnonKey == null) {
     throw Exception('Supabase URL or Anon Key not found in .env file');
   }
-  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  
+  try {
+    if (Supabase.instance.client.auth.currentSession == null) {
+      // This will throw if not initialized, which is caught below
+    }
+  } catch (e) {
+    // Supabase is not initialized, so initialize it
+    await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  }
 
   runApp(const ProviderScope(child: App()));
 }
