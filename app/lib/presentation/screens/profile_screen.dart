@@ -1,48 +1,32 @@
-import 'package:app/presentation/utils/show_error_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/presentation/state/profile_provider.dart';
-import 'package:app/presentation/components/user_name_field.dart';
+import 'package:app/presentation/components/profile_name_field.dart';
+import 'package:app/presentation/components/room_management_buttons.dart';
 
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final profileAsync = ref.watch(profileNotifierProvider);
-
-    return profileAsync.when(
-      data: (profile) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 400),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            UserNameField(
-              profile: profile,
-              updateProfile:
-                  ref.read(profileNotifierProvider.notifier).updateProfile,
-            ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed:
-                  (profile.name?.length ?? 0) == 0
-                      ? null
-                      : () {
-                        ref.read(profileNotifierProvider.notifier).joinRoom();
-                      },
-              child: const Text('Create Game'),
+            const SizedBox(
+              height: 80,
+              child: ProfileNameField(),
             ),
-            if (profile.roomId != null) ...[
-              const SizedBox(height: 10),
-              Text('Current Room: ${profile.roomId}'),
-            ],
+            const SizedBox(height: 40),
+            const SizedBox(
+              height: 100,
+              child: RoomManagementButtons(),
+            ),
           ],
-        );
-      },
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) {
-        showErrorSnackbar(context, error.toString());
-        return const Text('Error loading profile');
-      },
+        ),
+      ),
     );
   }
 }

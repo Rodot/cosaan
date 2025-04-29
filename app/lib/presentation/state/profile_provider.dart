@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:app/domain/models/user.dart';
+import 'package:app/domain/models/profile.dart';
 import 'package:app/infrastructure/profile_repository.dart';
 
 part 'profile_provider.g.dart';

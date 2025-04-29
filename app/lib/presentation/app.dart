@@ -7,19 +7,6 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('The Village')),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [const ProfileScreen()],
-            ),
-          ),
-        ),
-      ),
-    );
+    return const MaterialApp(home: Scaffold(body: ProfileScreen()));
   }
 }
