@@ -7,20 +7,16 @@ import 'package:app/presentation/screens/user_profile_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables
   await dotenv.load();
 
-  // Initialize Supabase
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-  );
+  final supabaseUrl = dotenv.env['SUPABASE_URL'];
+  final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'];
+  if (supabaseUrl == null || supabaseAnonKey == null) {
+    throw Exception('Supabase URL or Anon Key not found in .env file');
+  }
+  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
 
-  runApp(
-    const ProviderScope(
-      child: MainApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends ConsumerWidget {
@@ -36,9 +32,7 @@ class MainApp extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const UserProfileScreen(),
-              ],
+              children: [const UserProfileScreen()],
             ),
           ),
         ),
