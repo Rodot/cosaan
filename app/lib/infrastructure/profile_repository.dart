@@ -29,7 +29,7 @@ class ProfileRepository {
     return Profile.fromJson(json);
   }
 
-  Future<void> joinRoom() async {
+  Future<void> createAndJoinRoom() async {
     await _client.functions.invoke('create-and-join-room');
   }
 

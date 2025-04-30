@@ -9,15 +9,13 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 400),
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 20),
-            const SizedBox(height: 80, child: ProfileNameField()),
-            const SizedBox(height: 40),
-            const SizedBox(height: 100, child: RoomManagementButtons()),
+            ProfileNameField(),
+            SizedBox(height: 16.0),
+            RoomManagementButtons(),
           ],
         ),
       ),

@@ -11,21 +11,18 @@ class ProfileNameField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(profileNotifierProvider);
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 70),
-      child: profileAsync.when(
-        data:
-            (profile) => _buildNameField(
-              context,
-              profile.name ?? '',
-              (newName) => _handleNameUpdate(newName, profile, ref),
-            ),
-        loading: () => _buildDisabledTextField(),
-        error: (error, stackTrace) {
-          showErrorSnackbar(context, error.toString());
-          return _buildDisabledTextField();
-        },
-      ),
+    return profileAsync.when(
+      data:
+          (profile) => _buildNameField(
+            context,
+            profile.name ?? '',
+            (newName) => _handleNameUpdate(newName, profile, ref),
+          ),
+      loading: () => _buildDisabledTextField(),
+      error: (error, stackTrace) {
+        showErrorSnackbar(context, error.toString());
+        return _buildDisabledTextField();
+      },
     );
   }
 

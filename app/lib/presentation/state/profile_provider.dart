@@ -17,26 +17,40 @@ class ProfileNotifier extends _$ProfileNotifier {
     return _signInAnonymously();
   }
 
+  Future<T> _executeWithLoading<T>(Future<T> Function() operation) async {
+    state = const AsyncValue.loading();
+    try {
+      final result = await operation();
+      state = AsyncValue.data(result as Profile);
+      return result;
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+      rethrow;
+    }
+  }
+
   Future<Profile> _signInAnonymously() async {
     final profileRepository = ref.read(profileRepositoryProvider);
     return await profileRepository.signInAnonymously();
   }
 
-  Future<void> joinRoom() async {
-    state = AsyncLoading();
-    if (state.value == null) {
-      throw Exception('Cant join room as profile is null');
-    }
-    final profileRepository = ref.read(profileRepositoryProvider);
-    await profileRepository.joinRoom();
-    final updatedProfile = await profileRepository.fetch(state.value!.id);
-    state = AsyncData(updatedProfile);
+  Future<void> createAndJoinRoom() async {
+    await _executeWithLoading(() async {
+      if ((state.value?.name?.length ?? 0) < 3) {
+        throw Exception(
+          "Can't join a room with a name shorter than 3 characters",
+        );
+      }
+      final profileRepository = ref.read(profileRepositoryProvider);
+      await profileRepository.createAndJoinRoom();
+      return await profileRepository.fetch(state.value!.id);
+    });
   }
 
   Future<void> updateProfile(Profile profile) async {
-    state = AsyncLoading();
-    final profileRepository = ref.read(profileRepositoryProvider);
-    final updatedProfile = await profileRepository.update(profile.id, profile);
-    state = AsyncData(updatedProfile);
+    await _executeWithLoading(() async {
+      final profileRepository = ref.read(profileRepositoryProvider);
+      return await profileRepository.update(profile.id, profile);
+    });
   }
 }
