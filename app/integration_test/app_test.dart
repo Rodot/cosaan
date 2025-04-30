@@ -14,7 +14,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.text('Your Name'),
+        find.text('Your name'),
         findsOneWidget,
         reason: 'App displays the name label',
       );

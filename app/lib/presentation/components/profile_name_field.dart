@@ -15,18 +15,20 @@ class ProfileNameField extends ConsumerWidget {
     return profileAsync.when(
       data: (profile) {
         return TextFieldWithSaveButton(
+          labelText: "Your name",
           value: profile.name ?? '',
           onSave: (newName) => _handleProfileUpdate(newName, profile, ref),
         );
       },
       loading:
           () => TextFieldWithSaveButton(
+            labelText: "Your name",
             value: profileAsync.value?.name,
             isLoading: true,
           ),
       error: (error, stackTrace) {
         showErrorSnackbar(context, error.toString());
-        return TextFieldWithSaveButton();
+        return TextFieldWithSaveButton(labelText: "Your name");
       },
     );
   }

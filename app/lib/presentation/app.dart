@@ -10,12 +10,7 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       home: Scaffold(
-        body: Stack(
-          children: const [
-            ProfileScreen(),
-            AppLoadingBar(),
-          ],
-        ),
+        body: Stack(children: const [ProfileScreen(), AppLoadingBar()]),
       ),
     );
   }

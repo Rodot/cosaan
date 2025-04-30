@@ -53,12 +53,13 @@ class _TextFieldWithSaveButtonState extends State<TextFieldWithSaveButton> {
         (widget.value != textController.text) &&
         (!widget.isLoading);
 
-    final suffixIcon = isButtonVisible
-        ? IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () => widget.onSave!(textController.text),
-          )
-        : null;
+    final suffixIcon =
+        isButtonVisible
+            ? IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () => widget.onSave!(textController.text),
+            )
+            : null;
 
     return TextField(
       controller: textController,
