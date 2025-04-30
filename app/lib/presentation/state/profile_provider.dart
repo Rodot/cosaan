@@ -17,25 +17,14 @@ class ProfileNotifier extends _$ProfileNotifier {
     return _signInAnonymously();
   }
 
-  Future<T> _executeWithLoading<T>(Future<T> Function() operation) async {
-    state = const AsyncValue.loading();
-    try {
-      final result = await operation();
-      state = AsyncValue.data(result as Profile);
-      return result;
-    } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
-      rethrow;
-    }
-  }
-
   Future<Profile> _signInAnonymously() async {
     final profileRepository = ref.read(profileRepositoryProvider);
     return await profileRepository.signInAnonymously();
   }
 
   Future<void> createAndJoinRoom() async {
-    await _executeWithLoading(() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
       if ((state.value?.name?.length ?? 0) < 3) {
         throw Exception(
           "Can't join a room with a name shorter than 3 characters",
@@ -48,7 +37,8 @@ class ProfileNotifier extends _$ProfileNotifier {
   }
 
   Future<void> updateProfile(Profile profile) async {
-    await _executeWithLoading(() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
       final profileRepository = ref.read(profileRepositoryProvider);
       return await profileRepository.update(profile.id, profile);
     });

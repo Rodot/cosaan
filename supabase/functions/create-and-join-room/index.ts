@@ -5,6 +5,7 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 /// <reference types="https://esm.sh/@supabase/functions-js@2.4.4/src/edge-runtime.d.ts" />
 
+import { insertLogs } from "../_repository/logs.repo.ts";
 import { insertRoom, updateRoom } from "../_repository/rooms.repo.ts";
 import {
     addProfileToRoom,
@@ -41,6 +42,12 @@ Deno.serve(async (req) => {
 
         // join room
         await addProfileToRoom(supabase, user?.id, room.id);
+
+        // add log
+        await insertLogs(supabase, {
+            room_id: room.id,
+            content: `${profile.name} joined.`,
+        });
 
         const data = {};
 
