@@ -53,24 +53,22 @@ class _TextFieldWithSaveButtonState extends State<TextFieldWithSaveButton> {
         (widget.value != textController.text) &&
         (!widget.isLoading);
 
-    final suffixIcon =
-        widget.isLoading
-            ? const CircularProgressIndicator()
-            : (isButtonVisible)
-            ? IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: () => widget.onSave!(textController.text),
-            )
-            : null;
+    final suffixIcon = isButtonVisible
+        ? IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () => widget.onSave!(textController.text),
+          )
+        : null;
 
     return TextField(
       controller: textController,
+      enabled: !widget.isLoading,
       decoration: InputDecoration(
         labelText: widget.labelText,
         border: const OutlineInputBorder(),
         suffixIcon: suffixIcon,
       ),
-      onSubmitted: widget.onSave,
+      onSubmitted: widget.isLoading ? null : widget.onSave,
     );
   }
 }
