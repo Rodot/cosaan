@@ -5,11 +5,11 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 /// <reference types="https://esm.sh/@supabase/functions-js@2.4.4/src/edge-runtime.d.ts" />
 
-import { insertRoom, updateRoom } from "../_repository/room.repo.ts";
+import { insertRoom, updateRoom } from "../_repository/rooms.repo.ts";
 import {
     addProfileToRoom,
     fetchProfile,
-} from "../_repository/user_profiles.repo.ts";
+} from "../_repository/profiles.repo.ts";
 import { corsHeaders } from "../_utils/cors.ts";
 import { createSupabaseClient } from "../_utils/supabase.ts";
 

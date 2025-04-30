@@ -9,8 +9,11 @@ cd app
 echo "🔨 Terminating any running chromedriver processes..."
 pkill -f chromedriver || true
 
-echo "🔨 Generating riverpod files..."
+echo "🔨 Running code generagors (Riverpod, Freezed)..."
 dart run build_runner build --delete-conflicting-outputs
+
+echo "🔨 Running Dart format..."
+dart format .
 
 echo "🔨 Running Dart analysis..."
 dart analyze
