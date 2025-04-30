@@ -14,7 +14,12 @@ class ProfileNameField extends ConsumerWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 70),
       child: profileAsync.when(
-        data: (profile) => _buildNameField(context, ref, profile),
+        data:
+            (profile) => _buildNameField(
+              context,
+              profile.name ?? '',
+              (newName) => _handleNameUpdate(newName, profile, ref),
+            ),
         loading: () => _buildDisabledTextField(),
         error: (error, stackTrace) {
           showErrorSnackbar(context, error.toString());
@@ -23,7 +28,15 @@ class ProfileNameField extends ConsumerWidget {
       ),
     );
   }
-  
+
+  void _handleNameUpdate(String newName, Profile profile, WidgetRef ref) {
+    final trimmedName = newName.trim();
+    if (trimmedName.isNotEmpty && trimmedName != profile.name) {
+      final updatedProfile = profile.copyWith(name: trimmedName);
+      ref.read(profileNotifierProvider.notifier).updateProfile(updatedProfile);
+    }
+  }
+
   Widget _buildDisabledTextField() {
     return const TextField(
       enabled: false,
@@ -34,84 +47,63 @@ class ProfileNameField extends ConsumerWidget {
     );
   }
 
-  Widget _buildNameField(BuildContext context, WidgetRef ref, Profile profile) {
-    final textController = TextEditingController(text: profile.name ?? '');
-    
+  Widget _buildNameField(
+    BuildContext context,
+    String text,
+    Function(String) onTextSave,
+  ) {
+    final textController = TextEditingController(text: text);
+
     return StatefulBuilder(
       builder: (context, setState) {
         textController.addListener(() {
           // Force rebuild when text changes
           setState(() {});
         });
-        
+
+        final isModified = textController.text.trim() != text;
+
+        void onSave() {
+          onTextSave(textController.text.trim());
+        }
+
+        void onDiscard() {
+          textController.text = text;
+        }
+
         return TextField(
           controller: textController,
           decoration: InputDecoration(
             labelText: 'Your Name',
             border: const OutlineInputBorder(),
-            suffixIcon: _buildButtons(textController, profile, ref, setState),
+            suffixIcon: isModified ? _buildButtons(onSave, onDiscard) : null,
           ),
-          onSubmitted: (value) => _updateProfileName(value, profile, ref),
+          onSubmitted: onTextSave,
         );
-      }
+      },
     );
   }
 
-  Widget? _buildButtons(
-    TextEditingController controller, 
-    Profile profile, 
-    WidgetRef ref,
-    Function(Function()) setState,
-  ) {
-    final isModified = controller.text.trim() != (profile.name ?? '');
-    if (!isModified) return null;
-    
+  Widget _buildButtons(VoidCallback onSave, VoidCallback onDiscard) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildClearButton(controller, profile),
-        _buildSaveButton(controller, profile, ref),
-      ],
+      children: [_buildClearButton(onDiscard), _buildSaveButton(onSave)],
     );
   }
-  
-  Widget _buildClearButton(
-    TextEditingController controller,
-    Profile profile,
-  ) {
+
+  Widget _buildClearButton(VoidCallback onDiscard) {
     return IconButton(
       icon: const Icon(Icons.clear),
-      onPressed: () {
-        controller.text = profile.name ?? '';
-      },
+      onPressed: onDiscard,
       tooltip: 'Discard changes',
     );
   }
-  
-  Widget _buildSaveButton(
-    TextEditingController controller,
-    Profile profile,
-    WidgetRef ref,
-  ) {
+
+  Widget _buildSaveButton(VoidCallback onSave) {
     return IconButton(
       icon: const Icon(Icons.save),
-      onPressed: () {
-        final updatedProfile = profile.copyWith(
-          name: controller.text.trim(),
-        );
-        ref
-            .read(profileNotifierProvider.notifier)
-            .updateProfile(updatedProfile);
-      },
+      onPressed: onSave,
       tooltip: 'Save changes',
     );
-  }
-
-  void _updateProfileName(String value, Profile profile, WidgetRef ref) {
-    final trimmedValue = value.trim();
-    if (trimmedValue.isNotEmpty && trimmedValue != profile.name) {
-      final updatedProfile = profile.copyWith(name: trimmedValue);
-      ref.read(profileNotifierProvider.notifier).updateProfile(updatedProfile);
-    }
   }
 }
