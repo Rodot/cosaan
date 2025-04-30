@@ -9,13 +9,13 @@ class RoomManagementButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(profileNotifierProvider);
-    
+
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 90),
       child: profileAsync.when(
         data: (profile) {
           final isNameEmpty = (profile.name?.length ?? 0) == 0;
-          
+
           return SizedBox(
             width: double.infinity,
             child: Column(
@@ -23,11 +23,14 @@ class RoomManagementButtons extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: isNameEmpty
-                      ? null
-                      : () {
-                          ref.read(profileNotifierProvider.notifier).joinRoom();
-                        },
+                  onPressed:
+                      isNameEmpty
+                          ? null
+                          : () {
+                            ref
+                                .read(profileNotifierProvider.notifier)
+                                .joinRoom();
+                          },
                   child: const Text('Create Game'),
                 ),
                 if (profile.roomId != null) ...[
@@ -38,11 +41,14 @@ class RoomManagementButtons extends ConsumerWidget {
             ),
           );
         },
-        loading: () => const Center(child: SizedBox(
-          height: 40,
-          width: 40,
-          child: CircularProgressIndicator(),
-        )),
+        loading:
+            () => const Center(
+              child: SizedBox(
+                height: 40,
+                width: 40,
+                child: CircularProgressIndicator(),
+              ),
+            ),
         error: (error, stackTrace) {
           showErrorSnackbar(context, error.toString());
           return const SizedBox(

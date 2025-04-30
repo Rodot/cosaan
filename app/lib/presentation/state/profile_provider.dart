@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:app/domain/models/profile.dart';
+import 'package:app/domain/profile_model.dart';
 import 'package:app/infrastructure/profile_repository.dart';
 
 part 'profile_provider.g.dart';
@@ -18,44 +18,25 @@ class ProfileNotifier extends _$ProfileNotifier {
   }
 
   Future<Profile> _signInAnonymously() async {
-    state = const AsyncLoading();
-    try {
-      final profileRepository = ref.read(profileRepositoryProvider);
-      return await profileRepository.signInAnonymously();
-    } catch (e) {
-      state = AsyncError(e, StackTrace.current);
-      throw Exception('Failed to sign in anonymously: ${e.toString()}');
-    }
+    final profileRepository = ref.read(profileRepositoryProvider);
+    return await profileRepository.signInAnonymously();
   }
 
   Future<void> joinRoom() async {
-    state = const AsyncLoading();
-    try {
-      if (state.value == null) {
-        throw Exception('Cant join room as profile is null');
-      }
-      final profileRepository = ref.read(profileRepositoryProvider);
-      await profileRepository.joinRoom();
-      final updatedProfile = await profileRepository.fetch(state.value!.id);
-      state = AsyncData(updatedProfile);
-    } catch (e) {
-      state = AsyncError(e, StackTrace.current);
+    state = AsyncLoading();
+    if (state.value == null) {
+      throw Exception('Cant join room as profile is null');
     }
+    final profileRepository = ref.read(profileRepositoryProvider);
+    await profileRepository.joinRoom();
+    final updatedProfile = await profileRepository.fetch(state.value!.id);
+    state = AsyncData(updatedProfile);
   }
 
   Future<void> updateProfile(Profile profile) async {
-    state = const AsyncLoading();
-
-    try {
-      final profileRepository = ref.read(profileRepositoryProvider);
-      final updatedProfile = await profileRepository.update(
-        profile.id,
-        profile,
-      );
-
-      state = AsyncData(updatedProfile);
-    } catch (e) {
-      state = AsyncError(e, StackTrace.current);
-    }
+    state = AsyncLoading();
+    final profileRepository = ref.read(profileRepositoryProvider);
+    final updatedProfile = await profileRepository.update(profile.id, profile);
+    state = AsyncData(updatedProfile);
   }
 }

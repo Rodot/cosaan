@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'profile.freezed.dart';
-part 'profile.g.dart';
+part 'profile_model.freezed.dart';
+part 'profile_model.g.dart';
 
 @freezed
 abstract class Profile with _$Profile {

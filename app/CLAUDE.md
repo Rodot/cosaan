@@ -21,7 +21,6 @@ You must apply the following rule at all time:
 Organize the using this architecture
 
 - /domain
-  - /model
 - /services
 - /infrastructure (supabase repositories)
 - /presentation

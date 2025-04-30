@@ -15,15 +15,9 @@ class ProfileScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 20),
-            const SizedBox(
-              height: 80,
-              child: ProfileNameField(),
-            ),
+            const SizedBox(height: 80, child: ProfileNameField()),
             const SizedBox(height: 40),
-            const SizedBox(
-              height: 100,
-              child: RoomManagementButtons(),
-            ),
+            const SizedBox(height: 100, child: RoomManagementButtons()),
           ],
         ),
       ),
