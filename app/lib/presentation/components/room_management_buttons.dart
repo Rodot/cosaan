@@ -12,11 +12,10 @@ class RoomManagementButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(profileNotifierProvider);
+    final isNameSaved = (profile.value?.name?.length ?? 0) > 0;
+    final isButtonEnabled = isNameSaved && !profile.isLoading;
     return ElevatedButton(
-      onPressed:
-          ((profile.value?.name?.length ?? 0) == 0)
-              ? null
-              : () => createAndJoinRoom(ref),
+      onPressed: isButtonEnabled ? () => createAndJoinRoom(ref) : null,
       child: Text("Start New Game"),
     );
   }
