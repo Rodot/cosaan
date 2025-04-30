@@ -13,13 +13,6 @@ class AppLoadingBar extends ConsumerWidget {
     final logs = ref.watch(logsNotifierProvider);
     final isLoading = profile.isLoading || logs.isLoading;
 
-    if (profile.hasError) {
-      showErrorSnackbar(context, profile.error?.toString() ?? 'Profile error');
-    }
-    if (logs.hasError) {
-      showErrorSnackbar(context, logs.error?.toString() ?? 'Logs error');
-    }
-
     return Positioned(
       top: 0,
       left: 0,

@@ -1,3 +1,4 @@
+import 'package:app/presentation/components/app_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:app/presentation/components/profile_name_field.dart';
 import 'package:app/presentation/components/room_management_buttons.dart';
