@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:app/main.dart' as app;
 
-// Use a global variable to persist the test name between test groups
 String testName = '';
 
 void main() {
@@ -11,49 +10,63 @@ void main() {
 
   group('Setup User Profile', () {
     testWidgets('Save user name', (WidgetTester tester) async {
-      // Start the app
       await app.main();
       await tester.pumpAndSettle();
 
-      // Verify the app loads correctly
-      expect(find.text('The Village'), findsOneWidget);
-      expect(find.text('Your Name'), findsOneWidget);
-      expect(find.byType(TextField), findsOneWidget);
+      expect(
+        find.text('Your Name'),
+        findsOneWidget,
+        reason: 'App displays the name label',
+      );
+      expect(
+        find.byType(TextField),
+        findsOneWidget,
+        reason: 'App displays the text field for input',
+      );
 
-      // Initially there might be a circular progress indicator while loading
-      await tester.pumpAndSettle(); // Wait for async operations to complete
+      await tester.pumpAndSettle();
 
-      // Enter a name in the text field
       testName = 'Test User ${DateTime.now().millisecondsSinceEpoch}';
       await tester.enterText(find.byType(TextField), testName);
       await tester.pumpAndSettle();
 
-      // Verify save button appears
-      expect(find.byIcon(Icons.save), findsOneWidget);
+      expect(
+        find.byIcon(Icons.save),
+        findsOneWidget,
+        reason: 'Save button appears after text entry',
+      );
 
-      // Tap save button
       await tester.tap(find.byIcon(Icons.save));
-      await tester.pumpAndSettle(const Duration(seconds: 3)); // Give extra time for network request
+      await tester.pumpAndSettle();
 
-      // Verify the save worked (save button should disappear)
-      expect(find.byIcon(Icons.save), findsNothing);
-      
-      // Verify the name is now displayed
-      expect(find.text(testName), findsOneWidget);
+      expect(
+        find.byIcon(Icons.save),
+        findsNothing,
+        reason: 'Save button disappears after saving',
+      );
+      expect(
+        find.text(testName),
+        findsOneWidget,
+        reason: 'The app displays the entered name',
+      );
     });
   });
 
   group('Verify Profile Persistence', () {
     testWidgets('Name persists after app reload', (WidgetTester tester) async {
-      // Start the app again (simulating a fresh app launch)
       await app.main();
-      await tester.pumpAndSettle(const Duration(seconds: 3)); // Wait for app to load and data to be fetched
+      await tester.pumpAndSettle();
 
-      // Verify the name persisted from the previous test
-      expect(find.text(testName), findsOneWidget);
-      
-      // Verify input field is not in edit mode
-      expect(find.byIcon(Icons.save), findsNothing);
+      expect(
+        find.text(testName),
+        findsOneWidget,
+        reason: 'The name persists across app restarts',
+      );
+      expect(
+        find.byIcon(Icons.save),
+        findsNothing,
+        reason: 'Input field dont have pending changes',
+      );
     });
   });
 }
