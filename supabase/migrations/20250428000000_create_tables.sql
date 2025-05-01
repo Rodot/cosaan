@@ -2,7 +2,6 @@
 CREATE TABLE public.rooms(
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at timestamp NOT NULL DEFAULT NOW(),
-    lang text DEFAULT 'en' ::text,
     status text DEFAULT 'lobby' ::text,
     next_room_id uuid REFERENCES public.rooms ON DELETE SET NULL
 );
