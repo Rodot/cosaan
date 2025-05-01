@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:app/presentation/components/profile_name_field.dart';
-import 'package:app/presentation/components/game_management_buttons.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  void onPressed(BuildContext context) {
+    context.go('/create');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ProfileNameField(),
-        SizedBox(height: 16.0),
-        GameManagementButtons(),
+        const Text(
+          "Welcome to the Game!",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () => onPressed(context),
+          child: Text("Create Game"),
+        ),
       ],
     );
   }
