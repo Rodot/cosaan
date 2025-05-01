@@ -2,10 +2,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app/domain/profile_model.dart';
 
 Future<Profile> fetch(String userId) async {
-  final SupabaseClient client = Supabase.instance.client;
-
   final json =
-      await client
+      await Supabase.instance.client
           .from('profiles')
           .select('id, name, game_id, created_at')
           .eq('id', userId)
@@ -14,14 +12,12 @@ Future<Profile> fetch(String userId) async {
 }
 
 Future<Profile> update(String userId, Profile updatedProfile) async {
-  final SupabaseClient client = Supabase.instance.client;
-
   final updates = {
     'name': updatedProfile.name,
     'game_id': updatedProfile.gameId,
   };
   final json =
-      await client
+      await Supabase.instance.client
           .from('profiles')
           .update(updates)
           .eq('id', userId)
@@ -37,15 +33,11 @@ Future<void> createAndJoinGame() async {
 }
 
 Future<void> joinGame() async {
-  final SupabaseClient client = Supabase.instance.client;
-
-  await client.functions.invoke('create-and-join-game');
+  await Supabase.instance.client.functions.invoke('create-and-join-game');
 }
 
 Future<Profile> signInAnonymously() async {
-  final SupabaseClient client = Supabase.instance.client;
-
-  final Session? session = client.auth.currentSession;
+  final Session? session = Supabase.instance.client.auth.currentSession;
   return session != null ? fetchExistingUser(session) : createAnonymousUser();
 }
 
@@ -54,9 +46,7 @@ Future<Profile> fetchExistingUser(Session session) async {
 }
 
 Future<Profile> createAnonymousUser() async {
-  final SupabaseClient client = Supabase.instance.client;
-
-  final response = await client.auth.signInAnonymously();
+  final response = await Supabase.instance.client.auth.signInAnonymously();
   final user = validateUserResponse(response);
   return await fetch(user.id);
 }

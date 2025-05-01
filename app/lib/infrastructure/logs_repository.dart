@@ -3,9 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app/domain/log_model.dart';
 
 Stream<List<Log>> streamLogs(String gameId, {int limit = 10}) {
-  final SupabaseClient client = Supabase.instance.client;
-
-  return client
+  return Supabase.instance.client
       .from('logs')
       .stream(primaryKey: ['id'])
       .eq('game_id', gameId)
