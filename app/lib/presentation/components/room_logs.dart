@@ -16,7 +16,7 @@ class RoomLogs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final logs = ref.watch(LastestLogsProvider(roomId)).value ?? [];
+    final logs = ref.watch(roomLogsProvider(roomId)).value ?? [];
     return _buildLogsList(logs);
   }
 
@@ -28,10 +28,10 @@ class RoomLogs extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             roomName,
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
         ),
         Expanded(

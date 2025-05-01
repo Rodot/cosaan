@@ -11,7 +11,7 @@ LogsRepository logsRepository(Ref ref) {
 }
 
 @riverpod
-Future<List<Log>> lastestLogs(Ref ref, String roomId) async {
+Stream<List<Log>> roomLogs(Ref ref, String roomId) {
   final logsRepository = ref.read(logsRepositoryProvider);
-  return await logsRepository.getLastLogs(roomId);
+  return logsRepository.streamLogs(roomId);
 }
