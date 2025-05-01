@@ -10,9 +10,12 @@ part 'current_profile_provider.g.dart';
 @riverpod
 Stream<Profile> currentProfile(Ref ref) {
   final session = ref.watch(currentSessionProvider);
-  final userId = session.value?.user.id;
-  if (userId != null) {
-    return profile_repository.streamProfile(userId);
+  if (session.isLoading) {
+    return Stream.empty();
   }
-  return Stream.value(dummyProfile);
+  final userId = session.value?.user.id;
+  if (userId == null) {
+    throw Exception("User ID is null");
+  }
+  return profile_repository.streamProfile(userId);
 }

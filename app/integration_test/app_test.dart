@@ -20,7 +20,7 @@ void main() {
       );
 
       await tester.tap(find.text('Create Game'));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       expect(
         find.text('Your name'),
@@ -33,11 +33,11 @@ void main() {
         reason: 'App displays the text field for input',
       );
 
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       testName = 'Test User ${DateTime.now().millisecondsSinceEpoch}';
       await tester.enterText(find.byType(TextField), testName);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       expect(
         find.byIcon(Icons.save),
@@ -46,7 +46,7 @@ void main() {
       );
 
       await tester.tap(find.byIcon(Icons.save));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       expect(
         find.byIcon(Icons.save),
@@ -64,7 +64,16 @@ void main() {
   group('Verify Profile Persistence', () {
     testWidgets('Name persists after app reload', (WidgetTester tester) async {
       await app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
+
+      expect(
+        find.text('Create Game'),
+        findsOneWidget,
+        reason: 'App displays the Create Game button',
+      );
+
+      await tester.tap(find.text('Create Game'));
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       expect(
         find.text(testName),

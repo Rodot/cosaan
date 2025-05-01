@@ -15,12 +15,3 @@ abstract class Profile with _$Profile {
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);
 }
-
-final dummyDate = DateTime(2000, 1, 1);
-
-final dummyProfile = Profile(
-  id: 'XXXXX',
-  name: 'XXXXX',
-  gameId: 'XXXXX',
-  createdAt: dummyDate,
-);

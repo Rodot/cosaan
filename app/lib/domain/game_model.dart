@@ -14,12 +14,3 @@ abstract class Game with _$Game {
 
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 }
-
-final dummyDate = DateTime(2000, 1, 1);
-
-final dummyGame = Game(
-  id: 'XXXXX',
-  createdAt: dummyDate,
-  status: 'XXXXX',
-  nextGameId: 'XXXXX',
-);
