@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/log_model.dart';
-import 'package:app/presentation/state/logs_any_game_provider.dart';
+import 'package:app/presentation/state/logs_provider.dart';
 import 'package:intl/intl.dart';
 
 String firstFiveUppercase(String text) {
@@ -16,7 +16,7 @@ class GameLogs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final logs = ref.watch(logsAnyGameProvider(gameId)).value ?? [];
+    final logs = ref.watch(logsProvider(gameId)).value ?? [];
     return _buildLogsList(logs);
   }
 

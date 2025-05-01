@@ -1,4 +1,4 @@
-import 'package:app/presentation/state/logs_any_game_provider.dart';
+import 'package:app/presentation/state/logs_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app/presentation/components/game_logs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ class SpectateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final logsAsync = ref.watch(logsAnyGameProvider(gameId ?? ""));
+    final logsAsync = ref.watch(logsProvider(gameId ?? ""));
     if (!logsAsync.hasValue && !logsAsync.isLoading) {
       return const Center(child: Text("No game ID provided"));
     }
