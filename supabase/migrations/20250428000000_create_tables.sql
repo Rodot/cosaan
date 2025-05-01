@@ -1,3 +1,13 @@
+-- user profiles
+CREATE TABLE public.profiles(
+    id uuid PRIMARY KEY NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+    created_at timestamp NOT NULL DEFAULT NOW(),
+    game_id uuid REFERENCES public.games ON DELETE SET NULL,
+    name text
+);
+
+CREATE INDEX idx_profiles_game_id ON public.profiles(game_id);
+
 -- games
 CREATE TABLE public.games(
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -8,19 +18,6 @@ CREATE TABLE public.games(
 
 ALTER publication supabase_realtime
     ADD TABLE public.games;
-
--- user profiles
-CREATE TABLE public.profiles(
-    id uuid PRIMARY KEY NOT NULL REFERENCES auth.users ON DELETE CASCADE,
-    created_at timestamp NOT NULL DEFAULT NOW(),
-    game_id uuid REFERENCES public.games ON DELETE SET NULL,
-    name text
-);
-
-ALTER publication supabase_realtime
-    ADD TABLE public.profiles;
-
-CREATE INDEX idx_profiles_game_id ON public.profiles(game_id);
 
 -- game logs
 CREATE TABLE public.logs(
