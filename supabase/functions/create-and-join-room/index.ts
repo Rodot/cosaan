@@ -46,6 +46,11 @@ Deno.serve(async (req) => {
         // add log
         await insertLogs(supabase, {
             room_id: room.id,
+            content: `Game created`,
+        });
+        // add log
+        await insertLogs(supabase, {
+            room_id: room.id,
             content: `${profile.name} joined.`,
         });
 

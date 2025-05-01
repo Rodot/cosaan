@@ -9,7 +9,19 @@ class Layout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: [child, const AppErrorHandler(), const AppLoadingBar()],
+        children: [
+          Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 16.0,
+              ),
+              child: child,
+            ),
+          ),
+          const AppErrorHandler(),
+          const AppLoadingBar(),
+        ],
       ),
     );
   }

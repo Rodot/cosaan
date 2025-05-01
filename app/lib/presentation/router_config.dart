@@ -1,6 +1,7 @@
 import 'package:app/presentation/layout.dart';
 import 'package:app/presentation/screens/home_screen.dart';
-import 'package:app/presentation/screens/room_screen.dart';
+import 'package:app/presentation/screens/play_screen.dart';
+import 'package:app/presentation/screens/spectate_screen.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter routerConfig() {
@@ -13,17 +14,16 @@ GoRouter routerConfig() {
         },
       ),
       GoRoute(
-        path: '/room/:roomId',
-        redirect: (context, state) {
-          final roomId = state.pathParameters['roomId'];
-          if (roomId == null || roomId.isEmpty) {
-            return '/';
-          }
-          return null;
-        },
+        path: '/spectate/:roomId',
         builder: (context, state) {
           final roomId = state.pathParameters['roomId']!;
-          return Layout(RoomScreen(roomId));
+          return Layout(SpectateScreen(roomId));
+        },
+      ),
+      GoRoute(
+        path: '/play',
+        builder: (context, state) {
+          return Layout(PlayScreen());
         },
       ),
     ],

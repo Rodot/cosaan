@@ -7,17 +7,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-        child: Column(
-          children: [
-            ProfileNameField(),
-            SizedBox(height: 16.0),
-            RoomManagementButtons(),
-          ],
-        ),
-      ),
+    return Column(
+      children: [
+        ProfileNameField(),
+        SizedBox(height: 16.0),
+        RoomManagementButtons(),
+      ],
     );
   }
 }

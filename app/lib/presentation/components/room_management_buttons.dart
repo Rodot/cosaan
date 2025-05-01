@@ -10,7 +10,7 @@ class RoomManagementButtons extends ConsumerWidget {
     var profile =
         await ref.read(profileNotifierProvider.notifier).createAndJoinRoom();
     if (context.mounted && profile?.roomId != null) {
-      context.go(Uri(path: '/room/${profile?.roomId}').toString());
+      context.go(Uri(path: '/play').toString());
     }
   }
 
