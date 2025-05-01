@@ -1,4 +1,4 @@
-import 'package:app/infrastructure/session_repository.dart';
+import 'package:app/presentation/state/session_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/domain/profile_model.dart';
 import 'package:app/infrastructure/profile_repository.dart'
@@ -10,7 +10,7 @@ part 'profile_provider.g.dart';
 class ProfileNotifier extends _$ProfileNotifier {
   @override
   Future<Profile> build() async {
-    final session = await getUserSession();
+    final session = await ref.watch(currentSessionProvider.future);
     return profile_repository.fetch(session.user.id);
   }
 
