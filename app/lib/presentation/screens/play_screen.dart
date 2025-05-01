@@ -1,6 +1,5 @@
 import 'package:app/presentation/state/profile_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:app/presentation/components/profile_name_field.dart';
 import 'package:app/presentation/components/game_logs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,12 +14,6 @@ class PlayScreen extends ConsumerWidget {
         child: Text("You are not in a game. Please create or join one."),
       );
     }
-    return Column(
-      children: [
-        ProfileNameField(),
-        SizedBox(height: 16.0),
-        Expanded(child: GameLogs(gameId)),
-      ],
-    );
+    return Column(children: [Expanded(child: GameLogs(gameId))]);
   }
 }

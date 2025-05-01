@@ -27,34 +27,9 @@ Future<Profile> update(String userId, Profile updatedProfile) async {
 }
 
 Future<void> createAndJoinGame() async {
-  final SupabaseClient client = Supabase.instance.client;
-
-  await client.functions.invoke('create-and-join-game');
+  Supabase.instance.client.functions.invoke('create-and-join-game');
 }
 
 Future<void> joinGame() async {
-  await Supabase.instance.client.functions.invoke('create-and-join-game');
-}
-
-Future<Profile> signInAnonymously() async {
-  final Session? session = Supabase.instance.client.auth.currentSession;
-  return session != null ? fetchExistingUser(session) : createAnonymousUser();
-}
-
-Future<Profile> fetchExistingUser(Session session) async {
-  return await fetch(session.user.id);
-}
-
-Future<Profile> createAnonymousUser() async {
-  final response = await Supabase.instance.client.auth.signInAnonymously();
-  final user = validateUserResponse(response);
-  return await fetch(user.id);
-}
-
-User validateUserResponse(AuthResponse response) {
-  final user = response.user;
-  if (user == null) {
-    throw Exception('Error signing in anonymously: No user found');
-  }
-  return user;
+  Supabase.instance.client.functions.invoke('create-and-join-game');
 }
