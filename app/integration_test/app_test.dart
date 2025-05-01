@@ -14,6 +14,15 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
+        find.text('Create Game'),
+        findsOneWidget,
+        reason: 'App displays the Create Game button',
+      );
+
+      await tester.tap(find.text('Create Game'));
+      await tester.pumpAndSettle();
+
+      expect(
         find.text('Your name'),
         findsOneWidget,
         reason: 'App displays the name label',

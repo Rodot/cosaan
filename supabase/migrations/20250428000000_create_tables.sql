@@ -6,6 +6,9 @@ CREATE TABLE public.profiles(
     name text
 );
 
+ALTER publication supabase_realtime
+    ADD TABLE public.profiles;
+
 CREATE INDEX idx_profiles_game_id ON public.profiles(game_id);
 
 -- games

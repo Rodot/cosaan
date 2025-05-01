@@ -2,20 +2,23 @@ import 'package:app/presentation/components/text_field_with_save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/profile_model.dart';
-import 'package:app/presentation/state/profile_provider.dart';
+import 'package:app/presentation/state/profile_notifier.dart';
+import 'package:app/presentation/state/current_profile_provider.dart';
 
 class ProfileNameField extends ConsumerWidget {
   const ProfileNameField({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileNotifierProvider).value;
+    final profileAsync = ref.watch(currentProfileProvider);
     return TextFieldWithSaveButton(
       labelText: "Your name",
-      value: profile?.name ?? '',
+      value: profileAsync.value?.name ?? '',
+      isLoading: profileAsync.isLoading,
       onSave:
-          profile != null
-              ? (newName) => _handleProfileUpdate(newName, profile, ref)
+          profileAsync.value != null
+              ? (newName) =>
+                  _handleProfileUpdate(newName, profileAsync.value!, ref)
               : null,
     );
   }

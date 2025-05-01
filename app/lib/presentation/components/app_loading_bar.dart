@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/presentation/state/profile_provider.dart';
+import 'package:app/presentation/state/profile_notifier.dart';
 
 class AppLoadingBar extends ConsumerWidget {
   const AppLoadingBar({super.key});

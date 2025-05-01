@@ -7,7 +7,6 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 bool _isUrlStrategySet = false;
 
 Future<void> main() async {
-  debugPrint("starting app");
   WidgetsFlutterBinding.ensureInitialized();
 
   if (!_isUrlStrategySet) {

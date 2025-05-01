@@ -1,6 +1,15 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app/domain/profile_model.dart';
 
+Stream<Profile> streamProfile(String id) {
+  return Supabase.instance.client
+      .from('profiles')
+      .stream(primaryKey: ['id'])
+      .eq('id', id)
+      .limit(1)
+      .map((data) => Profile.fromJson(data[0]));
+}
+
 Future<Profile> fetch(String userId) async {
   final json =
       await Supabase.instance.client

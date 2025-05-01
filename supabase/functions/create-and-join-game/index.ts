@@ -46,7 +46,7 @@ Deno.serve(async (req) => {
         // add log
         await insertLogs(supabase, {
             game_id: game.id,
-            content: `Game created`,
+            content: `Game created ${game.id}.`,
         });
         // add log
         await insertLogs(supabase, {
