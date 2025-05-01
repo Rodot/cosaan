@@ -1,33 +1,33 @@
 import { SupabaseClient } from "https://esm.sh/v135/@supabase/supabase-js@2.43.2/dist/module/index.js";
 import { Tables } from "../_types/database.types.ts";
 
-export const addProfileToRoom = async (
+export const addProfileToGame = async (
   supabase: SupabaseClient,
   userId: string,
-  room_id: string,
+  game_id: string,
 ) => {
   const req = await supabase
     .from("profiles")
-    .update([{ room_id: room_id }])
+    .update([{ game_id: game_id }])
     .eq("id", userId);
   if (req.error) {
     throw new Error(req.error.message);
   }
 };
 
-export const fetchProfilesOfRoom = async (
+export const fetchProfilesOfGame = async (
   supabase: SupabaseClient,
-  room_id: string,
+  game_id: string,
 ): Promise<Tables<"profiles">[]> => {
   const req = await supabase.from("profiles").select("*").eq(
-    "room_id",
-    room_id,
+    "game_id",
+    game_id,
   );
   if (req.error) {
     throw new Error(req.error.message);
   } else {
-    const roomUsers = req?.data;
-    return roomUsers ?? [];
+    const gameUsers = req?.data;
+    return gameUsers ?? [];
   }
 };
 

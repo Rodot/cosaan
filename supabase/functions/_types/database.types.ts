@@ -34,31 +34,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      games: {
+        Row: {
+          created_at: string
+          id: string
+          next_game_id: string | null
+          status: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          next_game_id?: string | null
+          status?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          next_game_id?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "games_next_game_id_fkey"
+            columns: ["next_game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       logs: {
         Row: {
           content: string | null
           created_at: string
+          game_id: string
           id: string
-          room_id: string
         }
         Insert: {
           content?: string | null
           created_at?: string
+          game_id: string
           id?: string
-          room_id: string
         }
         Update: {
           content?: string | null
           created_at?: string
+          game_id?: string
           id?: string
-          room_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "logs_room_id_fkey"
-            columns: ["room_id"]
+            foreignKeyName: "logs_game_id_fkey"
+            columns: ["game_id"]
             isOneToOne: false
-            referencedRelation: "rooms"
+            referencedRelation: "games"
             referencedColumns: ["id"]
           },
         ]
@@ -66,60 +95,28 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          game_id: string | null
           id: string
           name: string | null
-          room_id: string | null
         }
         Insert: {
           created_at?: string
+          game_id?: string | null
           id: string
           name?: string | null
-          room_id?: string | null
         }
         Update: {
           created_at?: string
+          game_id?: string | null
           id?: string
           name?: string | null
-          room_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_room_id_fkey"
-            columns: ["room_id"]
+            foreignKeyName: "profiles_game_id_fkey"
+            columns: ["game_id"]
             isOneToOne: false
-            referencedRelation: "rooms"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      rooms: {
-        Row: {
-          created_at: string
-          id: string
-          lang: string | null
-          next_room_id: string | null
-          status: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          lang?: string | null
-          next_room_id?: string | null
-          status?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          lang?: string | null
-          next_room_id?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rooms_next_room_id_fkey"
-            columns: ["next_room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
+            referencedRelation: "games"
             referencedColumns: ["id"]
           },
         ]

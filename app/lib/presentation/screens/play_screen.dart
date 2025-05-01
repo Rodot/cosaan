@@ -1,7 +1,7 @@
 import 'package:app/presentation/state/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app/presentation/components/profile_name_field.dart';
-import 'package:app/presentation/components/room_logs.dart';
+import 'package:app/presentation/components/game_logs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PlayScreen extends ConsumerWidget {
@@ -9,8 +9,8 @@ class PlayScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final roomId = ref.watch(profileNotifierProvider).value?.roomId;
-    if (roomId == null) {
+    final gameId = ref.watch(profileNotifierProvider).value?.gameId;
+    if (gameId == null) {
       return Center(
         child: Text("You are not in a game. Please create or join one."),
       );
@@ -19,7 +19,7 @@ class PlayScreen extends ConsumerWidget {
       children: [
         ProfileNameField(),
         SizedBox(height: 16.0),
-        Expanded(child: RoomLogs(roomId)),
+        Expanded(child: GameLogs(gameId)),
       ],
     );
   }

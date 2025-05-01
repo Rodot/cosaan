@@ -1,36 +1,36 @@
--- rooms
-CREATE TABLE public.rooms(
+-- games
+CREATE TABLE public.games(
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at timestamp NOT NULL DEFAULT NOW(),
     status text DEFAULT 'lobby' ::text,
-    next_room_id uuid REFERENCES public.rooms ON DELETE SET NULL
+    next_game_id uuid REFERENCES public.games ON DELETE SET NULL
 );
 
 ALTER publication supabase_realtime
-    ADD TABLE public.rooms;
+    ADD TABLE public.games;
 
 -- user profiles
 CREATE TABLE public.profiles(
     id uuid PRIMARY KEY NOT NULL REFERENCES auth.users ON DELETE CASCADE,
     created_at timestamp NOT NULL DEFAULT NOW(),
-    room_id uuid REFERENCES public.rooms ON DELETE SET NULL,
+    game_id uuid REFERENCES public.games ON DELETE SET NULL,
     name text
 );
 
 ALTER publication supabase_realtime
     ADD TABLE public.profiles;
 
-CREATE INDEX idx_profiles_room_id ON public.profiles(room_id);
+CREATE INDEX idx_profiles_game_id ON public.profiles(game_id);
 
--- room logs
+-- game logs
 CREATE TABLE public.logs(
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at timestamp NOT NULL DEFAULT NOW(),
-    room_id uuid NOT NULL REFERENCES public.rooms ON DELETE CASCADE,
+    game_id uuid NOT NULL REFERENCES public.games ON DELETE CASCADE,
     content text
 );
 
-CREATE INDEX idx_logs_room_id ON public.logs(room_id);
+CREATE INDEX idx_logs_game_id ON public.logs(game_id);
 
 ALTER publication supabase_realtime
     ADD TABLE public.logs;
@@ -43,8 +43,8 @@ CREATE FUNCTION public.handle_new_user()
     SET search_path = ''
     AS $$
 BEGIN
-    INSERT INTO public.profiles(id, name, room_id)
-        VALUES(NEW.id, COALESCE(NEW.raw_user_meta_data ->> 'name', NULL), COALESCE(NEW.raw_user_meta_data ->> 'room_id', NULL)::uuid);
+    INSERT INTO public.profiles(id, name, game_id)
+        VALUES(NEW.id, COALESCE(NEW.raw_user_meta_data ->> 'name', NULL), COALESCE(NEW.raw_user_meta_data ->> 'game_id', NULL)::uuid);
     RETURN new;
 END;
 $$;

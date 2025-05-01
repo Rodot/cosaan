@@ -14,10 +14,10 @@ GoRouter routerConfig() {
         },
       ),
       GoRoute(
-        path: '/spectate/:roomId',
+        path: '/spectate/:gameId',
         builder: (context, state) {
-          final roomId = state.pathParameters['roomId']!;
-          return Layout(SpectateScreen(roomId));
+          final gameId = state.pathParameters['gameId']!;
+          return Layout(SpectateScreen(gameId));
         },
       ),
       GoRoute(

@@ -6,9 +6,9 @@
 /// <reference types="https://esm.sh/@supabase/functions-js@2.4.4/src/edge-runtime.d.ts" />
 
 import { insertLogs } from "../_repository/logs.repo.ts";
-import { insertRoom, updateRoom } from "../_repository/rooms.repo.ts";
+import { insertGame, updateGame } from "../_repository/games.repo.ts";
 import {
-    addProfileToRoom,
+    addProfileToGame,
     fetchProfile,
 } from "../_repository/profiles.repo.ts";
 import { corsHeaders } from "../_utils/cors.ts";
@@ -27,30 +27,30 @@ Deno.serve(async (req) => {
         }
         const user = userResponse.data.user;
 
-        // create new room
-        const [room, profile] = await Promise.all([
-            insertRoom(supabase),
+        // create new game
+        const [game, profile] = await Promise.all([
+            insertGame(supabase),
             fetchProfile(supabase, user?.id),
         ]);
 
         // add redirect to old rom
-        if (profile?.room_id) {
-            await updateRoom(supabase, profile.room_id, {
-                next_room_id: room.id,
+        if (profile?.game_id) {
+            await updateGame(supabase, profile.game_id, {
+                next_game_id: game.id,
             });
         }
 
-        // join room
-        await addProfileToRoom(supabase, user?.id, room.id);
+        // join game
+        await addProfileToGame(supabase, user?.id, game.id);
 
         // add log
         await insertLogs(supabase, {
-            room_id: room.id,
+            game_id: game.id,
             content: `Game created`,
         });
         // add log
         await insertLogs(supabase, {
-            room_id: room.id,
+            game_id: game.id,
             content: `${profile.name} joined.`,
         });
 

@@ -22,21 +22,21 @@ class ProfileNotifier extends _$ProfileNotifier {
     return await profileRepository.signInAnonymously();
   }
 
-  Future<Profile?> createAndJoinRoom() async {
+  Future<Profile?> createAndJoinGame() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final profileRepository = ref.read(profileRepositoryProvider);
-      await profileRepository.createAndJoinRoom();
+      await profileRepository.createAndJoinGame();
       return await profileRepository.fetch(state.value!.id);
     });
     return state.value;
   }
 
-  Future<Profile?> joinRoom() async {
+  Future<Profile?> joinGame() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final profileRepository = ref.read(profileRepositoryProvider);
-      await profileRepository.joinRoom();
+      await profileRepository.joinGame();
       return await profileRepository.fetch(state.value!.id);
     });
     return state.value;

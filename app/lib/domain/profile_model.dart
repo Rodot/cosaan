@@ -8,7 +8,7 @@ abstract class Profile with _$Profile {
   const factory Profile({
     required String id,
     String? name,
-    String? roomId,
+    String? gameId,
     required DateTime createdAt,
   }) = _Profile;
 

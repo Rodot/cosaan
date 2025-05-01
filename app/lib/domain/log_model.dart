@@ -8,7 +8,7 @@ abstract class Log with _$Log {
   const factory Log({
     required String id,
     required String content,
-    required String roomId,
+    required String gameId,
     required DateTime createdAt,
   }) = _Log;
 

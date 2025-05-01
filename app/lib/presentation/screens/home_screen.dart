@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/presentation/components/profile_name_field.dart';
-import 'package:app/presentation/components/room_management_buttons.dart';
+import 'package:app/presentation/components/game_management_buttons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
       children: [
         ProfileNameField(),
         SizedBox(height: 16.0),
-        RoomManagementButtons(),
+        GameManagementButtons(),
       ],
     );
   }

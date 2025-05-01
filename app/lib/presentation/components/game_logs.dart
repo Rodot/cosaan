@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/log_model.dart';
-import 'package:app/presentation/state/logs_any_room_provider.dart';
+import 'package:app/presentation/state/logs_any_game_provider.dart';
 import 'package:intl/intl.dart';
 
 String firstFiveUppercase(String text) {
@@ -10,27 +10,27 @@ String firstFiveUppercase(String text) {
   return text.substring(0, length).toUpperCase();
 }
 
-class RoomLogs extends ConsumerWidget {
-  const RoomLogs(this.roomId, {super.key});
-  final String roomId;
+class GameLogs extends ConsumerWidget {
+  const GameLogs(this.gameId, {super.key});
+  final String gameId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final logs = ref.watch(logsAnyRoomProvider(roomId)).value ?? [];
+    final logs = ref.watch(logsAnyGameProvider(gameId)).value ?? [];
     return _buildLogsList(logs);
   }
 
   Widget _buildLogsList(List<Log> logs) {
-    final roomIdShort =
-        logs.isNotEmpty ? firstFiveUppercase(logs.first.roomId) : 'XXXXX';
-    final roomName = "ROOM #$roomIdShort";
+    final gameIdShort =
+        logs.isNotEmpty ? firstFiveUppercase(logs.first.gameId) : 'XXXXX';
+    final gameName = "GAME #$gameIdShort";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
-            roomName,
+            gameName,
             style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
         ),

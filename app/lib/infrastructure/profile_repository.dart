@@ -8,7 +8,7 @@ class ProfileRepository {
     final json =
         await _client
             .from('profiles')
-            .select('id, name, room_id, created_at')
+            .select('id, name, game_id, created_at')
             .eq('id', userId)
             .single();
     return Profile.fromJson(json);
@@ -17,7 +17,7 @@ class ProfileRepository {
   Future<Profile> update(String userId, Profile updatedProfile) async {
     final updates = {
       'name': updatedProfile.name,
-      'room_id': updatedProfile.roomId,
+      'game_id': updatedProfile.gameId,
     };
     final json =
         await _client
@@ -29,12 +29,12 @@ class ProfileRepository {
     return Profile.fromJson(json);
   }
 
-  Future<void> createAndJoinRoom() async {
-    await _client.functions.invoke('create-and-join-room');
+  Future<void> createAndJoinGame() async {
+    await _client.functions.invoke('create-and-join-game');
   }
 
-  Future<void> joinRoom() async {
-    await _client.functions.invoke('create-and-join-room');
+  Future<void> joinGame() async {
+    await _client.functions.invoke('create-and-join-game');
   }
 
   Future<Profile> signInAnonymously() async {

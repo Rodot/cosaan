@@ -3,12 +3,12 @@ import { Tables, TablesInsert } from "../_types/database.types.ts";
 
 export const fetchLogs = async (
   supabase: SupabaseClient,
-  room_id: string,
+  game_id: string,
 ) => {
   const { data, error } = await supabase
     .from("logs")
     .select("*")
-    .eq("room_id", room_id);
+    .eq("game_id", game_id);
 
   if (error) {
     console.error("Error fetching logs:", error);
