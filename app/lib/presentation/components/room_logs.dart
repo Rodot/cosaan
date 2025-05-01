@@ -11,11 +11,12 @@ String firstFiveUppercase(String text) {
 }
 
 class RoomLogs extends ConsumerWidget {
-  const RoomLogs({super.key});
+  const RoomLogs(this.roomId, {super.key});
+  final String roomId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final logs = ref.watch(logsNotifierProvider).value ?? [];
+    final logs = ref.watch(LastestLogsProvider(roomId)).value ?? [];
     return _buildLogsList(logs);
   }
 

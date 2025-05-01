@@ -1,4 +1,3 @@
-import 'package:app/presentation/state/logs_provider.dart';
 import 'package:app/presentation/utils/show_error_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,12 +11,6 @@ class AppErrorHandler extends ConsumerWidget {
     ref.listen(profileNotifierProvider, (previous, next) {
       if (next.hasError) {
         showErrorSnackbar(context, "Profile: ${next.error}");
-      }
-    });
-
-    ref.listen(logsNotifierProvider, (previous, next) {
-      if (next.hasError) {
-        showErrorSnackbar(context, "Logs: ${next.error}");
       }
     });
 

@@ -10,7 +10,7 @@ ProfileRepository profileRepository(Ref ref) {
   return ProfileRepository();
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ProfileNotifier extends _$ProfileNotifier {
   @override
   Future<Profile> build() async {
@@ -22,25 +22,32 @@ class ProfileNotifier extends _$ProfileNotifier {
     return await profileRepository.signInAnonymously();
   }
 
-  Future<void> createAndJoinRoom() async {
+  Future<Profile?> createAndJoinRoom() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      if ((state.value?.name?.length ?? 0) < 3) {
-        throw Exception(
-          "Can't join a room with a name shorter than 3 characters",
-        );
-      }
       final profileRepository = ref.read(profileRepositoryProvider);
       await profileRepository.createAndJoinRoom();
       return await profileRepository.fetch(state.value!.id);
     });
+    return state.value;
   }
 
-  Future<void> updateProfile(Profile profile) async {
+  Future<Profile?> joinRoom() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final profileRepository = ref.read(profileRepositoryProvider);
+      await profileRepository.joinRoom();
+      return await profileRepository.fetch(state.value!.id);
+    });
+    return state.value;
+  }
+
+  Future<Profile?> updateProfile(Profile profile) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final profileRepository = ref.read(profileRepositoryProvider);
       return await profileRepository.update(profile.id, profile);
     });
+    return state.value;
   }
 }

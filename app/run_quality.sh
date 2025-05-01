@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "🔨 Starting Supabase (excluding vector)..."
-cd ..
-supabase start --exclude vector
-cd app
-
 echo "🔨 Terminating any running chromedriver processes..."
 pkill -f chromedriver || true
 
@@ -28,7 +23,7 @@ echo "🔨 Building web application for testing..."
 flutter build web -t integration_test/app_test.dart --release --dart-define=CI=true
 
 echo "🔨 Starting chromedriver on port 4444..."
-npx -y chromedriver --port=4444 &
+npx -y chromedriver@135 --port=4444 &
 
 echo "🔨 Running Flutter integration tests..."
 flutter drive \

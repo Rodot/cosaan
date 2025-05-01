@@ -1,4 +1,3 @@
-import 'package:app/presentation/state/logs_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/state/profile_provider.dart';
@@ -9,8 +8,7 @@ class AppLoadingBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(profileNotifierProvider);
-    final logs = ref.watch(logsNotifierProvider);
-    final isLoading = profile.isLoading || logs.isLoading;
+    final isLoading = profile.isLoading;
 
     return Positioned(
       top: 0,

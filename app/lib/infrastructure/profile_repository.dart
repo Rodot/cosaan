@@ -33,6 +33,10 @@ class ProfileRepository {
     await _client.functions.invoke('create-and-join-room');
   }
 
+  Future<void> joinRoom() async {
+    await _client.functions.invoke('create-and-join-room');
+  }
+
   Future<Profile> signInAnonymously() async {
     final Session? session = _client.auth.currentSession;
     return session != null

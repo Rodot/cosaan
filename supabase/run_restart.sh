@@ -1,4 +1,5 @@
-bash ./run_start.sh
+#!/bin/bash
+set -e
+
 supabase stop --no-backup
-bash ./run_start.sh
-bash ./run_check.sh
+./run_start.sh
