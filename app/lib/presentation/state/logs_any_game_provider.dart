@@ -1,17 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/domain/log_model.dart';
-import 'package:app/infrastructure/logs_repository.dart';
+import 'package:app/infrastructure/logs_repository.dart' as logs_repository;
 
 part 'logs_any_game_provider.g.dart';
 
-@Riverpod(keepAlive: true)
-LogsRepository logsRepository(Ref ref) {
-  return LogsRepository();
-}
-
 @riverpod
 Stream<List<Log>> logsAnyGame(Ref ref, String gameId) {
-  final logsRepository = ref.read(logsRepositoryProvider);
-  return logsRepository.streamLogs(gameId);
+  return logs_repository.streamLogs(gameId);
 }
