@@ -17,7 +17,7 @@ class GameShareQr extends ConsumerWidget {
           scheme: Uri.base.scheme,
           host: Uri.base.host,
           port: Uri.base.port != 0 ? Uri.base.port : null,
-          path: '/join/$gameId',
+          path: '/#/join/$gameId',
         ).toString();
 
     return Card(
