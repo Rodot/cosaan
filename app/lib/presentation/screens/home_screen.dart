@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "Welcome to the Game!",
+          "Welcome to Cosaan!",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 20),
