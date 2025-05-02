@@ -7,7 +7,7 @@ Stream<Profile> streamProfile(String id) {
       .stream(primaryKey: ['id'])
       .eq('id', id)
       .limit(1)
-      .map((data) => Profile.fromJson(data[0]));
+      .map((data) => Profile.fromJson(data.first));
 }
 
 Future<Profile> fetch(String userId) async {
