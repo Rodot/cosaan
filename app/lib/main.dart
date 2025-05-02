@@ -10,7 +10,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (!_isUrlStrategySet) {
-    setUrlStrategy(PathUrlStrategy());
+    setUrlStrategy(HashUrlStrategy());
     _isUrlStrategySet = true;
   }
 
