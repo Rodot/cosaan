@@ -3,6 +3,7 @@
     "denoland.vscode-deno",
     "tamasfe.even-better-toml",
     "dart-code.flutter",
-    "supabase.vscode-supabase-extension"
+    "supabase.vscode-supabase-extension",
+    "github.vscode-github-actions"
   ]
 }

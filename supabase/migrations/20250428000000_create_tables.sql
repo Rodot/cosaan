@@ -1,3 +1,14 @@
+-- games
+CREATE TABLE public.games(
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at timestamp NOT NULL DEFAULT NOW(),
+    status text DEFAULT 'lobby' ::text,
+    next_game_id uuid REFERENCES public.games ON DELETE SET NULL
+);
+
+ALTER publication supabase_realtime
+    ADD TABLE public.games;
+
 -- user profiles
 CREATE TABLE public.profiles(
     id uuid PRIMARY KEY NOT NULL REFERENCES auth.users ON DELETE CASCADE,
@@ -11,16 +22,6 @@ ALTER publication supabase_realtime
 
 CREATE INDEX idx_profiles_game_id ON public.profiles(game_id);
 
--- games
-CREATE TABLE public.games(
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_at timestamp NOT NULL DEFAULT NOW(),
-    status text DEFAULT 'lobby' ::text,
-    next_game_id uuid REFERENCES public.games ON DELETE SET NULL
-);
-
-ALTER publication supabase_realtime
-    ADD TABLE public.games;
 
 -- game logs
 CREATE TABLE public.logs(
