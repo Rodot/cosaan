@@ -7,14 +7,14 @@ import 'package:app/infrastructure/game_repository.dart' as game_repository;
 part 'current_game_provider.g.dart';
 
 @riverpod
-Stream<Game> currentGame(Ref ref) {
+Stream<Game?> currentGame(Ref ref) {
   final profileAsync = ref.watch(currentProfileProvider);
   if (profileAsync.isLoading) {
-    return Stream.empty();
+    return Stream.value(null);
   }
   final gameId = profileAsync.value?.gameId;
   if (gameId == null) {
-    return Stream.empty();
+    return Stream.value(null);
   }
   return game_repository.streamGame(gameId);
 }
