@@ -40,14 +40,15 @@ Deno.serve(async (req) => {
             });
         }
 
-        // join game
-        await addProfileToGame(supabase, user?.id, game.id);
-
         // add log
         await insertLogs(supabase, {
             game_id: game.id,
             content: `Game created ${game.id}.`,
         });
+
+        // join game
+        await addProfileToGame(supabase, user?.id, game.id);
+
         // add log
         await insertLogs(supabase, {
             game_id: game.id,
@@ -57,13 +58,13 @@ Deno.serve(async (req) => {
         const data = {};
 
         return new Response(JSON.stringify(data), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            headers: corsHeaders,
             status: 200,
         });
     } catch (error) {
         console.error(error);
         return new Response(JSON.stringify({ error }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            headers: corsHeaders,
             status: 400,
         });
     }

@@ -14,7 +14,7 @@ class PlayScreen extends ConsumerWidget {
     final gameId = profileAsync.value?.gameId ?? "XXXX";
     final gameIdPretty = gameId.toUpperCase();
     final gameStatus = game.when(
-      data: (game) => game?.status ?? "unknown",
+      data: (game) => game.status,
       error: (_, _) => "error",
       loading: () => "loading",
     );

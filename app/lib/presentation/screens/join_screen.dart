@@ -1,9 +1,10 @@
+import 'package:app/presentation/components/game_join_button.dart';
 import 'package:flutter/material.dart';
 import 'package:app/presentation/components/profile_name_field.dart';
-import 'package:app/presentation/components/game_create_button.dart';
 
-class CreateScreen extends StatelessWidget {
-  const CreateScreen({super.key});
+class JoinScreen extends StatelessWidget {
+  const JoinScreen({super.key, required this.gameId});
+  final String gameId;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class CreateScreen extends StatelessWidget {
       children: [
         ProfileNameField(),
         SizedBox(height: 16.0),
-        GameCreateButton(),
+        GameJoinButton(gameId: gameId),
       ],
     );
   }

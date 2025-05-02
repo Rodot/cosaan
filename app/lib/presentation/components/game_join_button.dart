@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/state/profile_notifier.dart';
 import 'package:go_router/go_router.dart';
 
-class GameManagementButtons extends ConsumerWidget {
-  const GameManagementButtons({super.key});
+class GameJoinButton extends ConsumerWidget {
+  const GameJoinButton({super.key, required this.gameId});
+  final String gameId;
 
-  void createAndJoinGame(BuildContext context, WidgetRef ref) async {
-    await ref.read(profileNotifierProvider.notifier).createAndJoinGame();
-
+  void joinGame(BuildContext context, WidgetRef ref) async {
+    await ref.read(profileNotifierProvider.notifier).joinGame(gameId);
     if (context.mounted) {
       context.go(Uri(path: '/play').toString());
     }
@@ -21,8 +21,8 @@ class GameManagementButtons extends ConsumerWidget {
     final isNameSaved = (profile.value?.name?.length ?? 0) > 0;
     final isButtonEnabled = isNameSaved && !profile.isLoading;
     return ElevatedButton(
-      onPressed: isButtonEnabled ? () => createAndJoinGame(context, ref) : null,
-      child: Text("Start New Game"),
+      onPressed: isButtonEnabled ? () => joinGame(context, ref) : null,
+      child: Text("Join Game"),
     );
   }
 }

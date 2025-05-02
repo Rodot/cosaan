@@ -17,6 +17,13 @@ class ProfileNotifier extends _$ProfileNotifier {
     });
   }
 
+  Future<void> joinGame(String gameId) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await profile_repository.joinGame(gameId);
+    });
+  }
+
   Future<void> updateProfile(Profile profile) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {

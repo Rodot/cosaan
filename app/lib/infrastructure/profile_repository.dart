@@ -38,3 +38,7 @@ Future<Profile> update(String userId, Profile updatedProfile) async {
 Future<void> createAndJoinGame() async {
   Supabase.instance.client.functions.invoke('create-and-join-game');
 }
+
+Future<void> joinGame(String gameId) async {
+  Supabase.instance.client.functions.invoke('join-game', body: {'id': gameId});
+}
