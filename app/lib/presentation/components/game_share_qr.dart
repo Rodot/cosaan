@@ -1,17 +1,15 @@
-import 'package:app/presentation/state/current_game_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GameShareQr extends ConsumerWidget {
-  const GameShareQr({super.key, this.size = 200.0});
+  const GameShareQr(this.gameId, {super.key, this.size = 200.0});
+  final String gameId;
 
   final double size;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameAsync = ref.watch(currentGameProvider);
-    final gameId = gameAsync.value?.id;
     final shareUrl =
         Uri(
           scheme: Uri.base.scheme,
@@ -25,13 +23,7 @@ class GameShareQr extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          gameAsync.isLoading
-              ? SizedBox(height: size, width: size)
-              : QrImageView(
-                data: shareUrl,
-                version: QrVersions.auto,
-                size: size,
-              ),
+          QrImageView(data: shareUrl, version: QrVersions.auto, size: size),
           Text(
             'Scan to join game',
             style: Theme.of(context).textTheme.bodyMedium,

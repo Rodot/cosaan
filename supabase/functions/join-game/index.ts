@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
             }),
         ]);
 
-        const data = JSON.stringify({});
+        const data = JSON.stringify({ ...profile, game_id: params.id });
         return new Response(data, { headers: corsHeaders, status: 200 });
     } catch (error) {
         const data = JSON.stringify(error);

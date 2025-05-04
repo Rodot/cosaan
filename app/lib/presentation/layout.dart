@@ -3,8 +3,9 @@ import 'package:app/presentation/components/app_loading_bar.dart';
 import 'package:flutter/material.dart';
 
 class Layout extends StatelessWidget {
-  const Layout(this.child, {super.key});
+  const Layout(this.gameId, this.child, {super.key});
   final Widget child;
+  final String? gameId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +20,8 @@ class Layout extends StatelessWidget {
               child: child,
             ),
           ),
-          const AppErrorHandler(),
-          const AppLoadingBar(),
+          AppErrorHandler(gameId),
+          AppLoadingBar(gameId),
         ],
       ),
     );

@@ -35,10 +35,17 @@ Future<Profile> update(String userId, Profile updatedProfile) async {
   return Profile.fromJson(json);
 }
 
-Future<void> createAndJoinGame() async {
-  Supabase.instance.client.functions.invoke('create-and-join-game');
+Future<Profile> createAndJoinGame() async {
+  final response = await Supabase.instance.client.functions.invoke(
+    'create-and-join-game',
+  );
+  return Profile.fromJson(response.data);
 }
 
-Future<void> joinGame(String gameId) async {
-  Supabase.instance.client.functions.invoke('join-game', body: {'id': gameId});
+Future<Profile> joinGame(String gameId) async {
+  final response = await Supabase.instance.client.functions.invoke(
+    'join-game',
+    body: {'id': gameId},
+  );
+  return Profile.fromJson(response.data);
 }

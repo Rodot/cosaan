@@ -1,4 +1,4 @@
-import 'package:app/presentation/state/current_profile_provider.dart';
+import 'package:app/presentation/components/profile_name_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/state/profile_notifier.dart';
@@ -11,17 +11,19 @@ class GameJoinButton extends ConsumerWidget {
   void joinGame(BuildContext context, WidgetRef ref) async {
     await ref.read(profileNotifierProvider.notifier).joinGame(gameId);
     if (context.mounted) {
-      context.go(Uri(path: '/play').toString());
+      context.go(Uri(path: '/play/$gameId').toString());
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(currentProfileProvider);
-    final isNameSaved = (profile.value?.name?.length ?? 0) > 0;
-    final isButtonEnabled = isNameSaved && !profile.isLoading;
+    final profile = ref.watch(profileNotifierProvider);
+    final isNamePresent = (profile.value?.name?.length ?? 0) > 0;
+    if (!isNamePresent) {
+      return ProfileNameField();
+    }
     return ElevatedButton(
-      onPressed: isButtonEnabled ? () => joinGame(context, ref) : null,
+      onPressed: () => joinGame(context, ref),
       child: Text("Join Game"),
     );
   }

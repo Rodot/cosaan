@@ -55,17 +55,10 @@ Deno.serve(async (req) => {
             content: `${profile.name} joined.`,
         });
 
-        const data = {};
-
-        return new Response(JSON.stringify(data), {
-            headers: corsHeaders,
-            status: 200,
-        });
+        const data = JSON.stringify({ ...profile, game_id: game.id });
+        return new Response(data, { headers: corsHeaders, status: 200 });
     } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ error }), {
-            headers: corsHeaders,
-            status: 400,
-        });
+        const data = JSON.stringify(error);
+        return new Response(data, { headers: corsHeaders, status: 400 });
     }
 });

@@ -1,24 +1,21 @@
-import 'package:app/presentation/state/current_game_provider.dart';
-import 'package:app/presentation/state/current_logs_provider.dart';
-import 'package:app/presentation/state/current_profile_provider.dart';
+import 'package:app/presentation/state/game_provider.dart';
+import 'package:app/presentation/state/logs_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/state/profile_notifier.dart';
 
 class AppLoadingBar extends ConsumerWidget {
-  const AppLoadingBar({super.key});
+  const AppLoadingBar(this.gameId, {super.key});
+  final String? gameId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileNotifierAsync = ref.watch(profileNotifierProvider);
-    final currentProfileAsync = ref.watch(currentProfileProvider);
-    final currentGameAsync = ref.watch(currentGameProvider);
-    final currentLogsAsync = ref.watch(currentLogsProvider);
-    final isLoading =
-        profileNotifierAsync.isLoading ||
-        currentProfileAsync.isLoading ||
-        currentLogsAsync.isLoading ||
-        currentGameAsync.isLoading;
+    final isLoadingProfile = ref.watch(profileNotifierProvider).isLoading;
+    final isLoadingGame =
+        gameId == null ? false : ref.watch(gameProvider(gameId!)).isLoading;
+    final isLoadingLogs =
+        gameId == null ? false : ref.watch(logsProvider(gameId!)).isLoading;
+    final isLoading = isLoadingProfile || isLoadingGame || isLoadingLogs;
 
     return Positioned(
       top: 0,

@@ -1,14 +1,15 @@
-import 'package:app/presentation/state/current_logs_provider.dart';
+import 'package:app/presentation/state/logs_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/log_model.dart';
 
 class GameLogs extends ConsumerWidget {
-  const GameLogs({super.key});
+  const GameLogs(this.gameId, {super.key});
+  final String gameId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final logs = ref.watch(currentLogsProvider).value ?? [];
+    final logs = ref.watch(logsProvider(gameId)).value ?? [];
     return _buildLogsList(logs);
   }
 
