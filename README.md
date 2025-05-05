@@ -1,8 +1,12 @@
-# Game Design Document
+# Cosaan - Survive together, ascend alone
 
 ## Overview
 
-Webapp party game. Players are crash-landed on an island, they struggle to balance collaborative survival with personal fame. Shared resources management and social deception awaits!
+Webapp party game.
+
+Players collaborate to sustain a village while secretly competing to achieve godhood.
+
+Resources management and social deception awaits!
 
 ## Characteristics
 
@@ -11,7 +15,7 @@ Webapp party game. Players are crash-landed on an island, they struggle to balan
 - Estimated playtime: 60 minutes (2 min x 30 days)
 - Complexity level: Play right away, but with depth for strategy
 - D&D feel: Virtual 🎲 D20 dice rolls for all 💪 Actions and 🎲 Events
-- Theme: 😃 Players play as themselves, modern times, crash-landed on a deserted island, waiting 30 days for rescue (problem => no reason to look for 🏆 Fame)
+- Theme: A group of nomads decided to settle down. First, they have to survive. Soon after, they discover religion, and fight to be the first to ascend as a god.
 - Visual: text-based, default web app style, material design system, mdi icons
 - Victory condition: survive 30 days with the most 🏆 Fame
 - If a 😃 Player dies, they reincarnate into one of the 🤖 NPCs
