@@ -29,6 +29,8 @@ Resources management and social deception awaits!
   - Among Us
   - Secret Hitler
   - TTT Game mode
+- Balance Coop and Versus
+  - Galerapagos
 
 ## Key Player Activities
 
