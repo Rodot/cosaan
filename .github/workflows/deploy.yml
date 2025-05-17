@@ -79,6 +79,5 @@ jobs:
         with:
           version: latest
       
-      - run: supabase link --project-ref $PROJECT_ID --password $SUPABASE_DB_PASSWORD
       - run: echo 'y' | supabase db reset --db-url $SUPABASE_DB_URL
       - run: supabase functions deploy --project-ref $PROJECT_ID
